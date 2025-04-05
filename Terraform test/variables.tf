@@ -6,10 +6,51 @@ variable "resource_group_name" {
 variable "subscription_id" {
   description = "Existing Subscription Id"
   type        = string
+  sensitive   = true
 }
 
 variable "resource_group_location" {
   description = "Existing Resource Group Location"
+  type        = string
+}
+
+variable "address_space_vnetwork" {
+  description = "Existing azurerm virtual network"
+  type        = string
+}
+
+variable "sku_acr" {
+  description = "Existing azurerm container registry"
+  type        = string
+}
+variable "application_type_app_insights" {
+  description = "Existing azurerm application insights"
+  type        = string
+}
+variable "address_prefixes_subnet_private" {
+  description = "Existing Subnet for Private Endpoints"
+  type        = string
+}
+variable "address_prefixes_subnet_appservice" {
+  description = "Existing Subnet for App Service"
+  type        = string
+}
+variable "os_type" {
+  description = "Existing App Service Plan OS"
+  type        = string
+}
+
+variable "sku_name_asp" {
+  description = "Existing App Service Plan Sku name"
+  type        = string
+}
+variable "sku_name_kv" {
+  description = "Existing Key Vault Sku name"
+  type        = string
+}
+
+variable "sku_name_sqldb" {
+  description = "Existing azurerm mssql database sku name"
   type        = string
 }
 
@@ -32,7 +73,30 @@ variable "acr_name" {
   description = "Azure Container Registry Name"
   type        = string
 }
+variable "tenant_id" {
+  description = "Azure Tenant Id"
+  type        = string
+  sensitive   = true
+}
 
+variable "account_tier_storage" {
+  description = "Azure Storage Account for Terraform State account tier"
+  type        = string
+}
+
+variable "account_replication_type_storage" {
+  description = "Azure Storage Account for Terraform State account replication type"
+  type        = string
+}
+
+variable "account_replication_type_terraform_state" {
+  description = "Azure Storage Account and Private Endpoint for File Share account replication type"
+  type        = string
+}
+variable "account_tier_terraform_state" {
+  description = "Azure Storage Account and Private Endpoint for File Share account tier"
+  type        = string
+}
 variable "key_vault_name" {
   description = "Azure Key Vault Name"
   type        = string
