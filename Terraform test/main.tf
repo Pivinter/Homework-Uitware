@@ -5,16 +5,12 @@ terraform {
       version = "4.25.0"
     }
   }
-}
-
-provider "azurerm" {
-  features {}
-  subscription_id = var.subscription_id
-}
-
-resource "azurerm_resource_group" "rg" {
-  name     = var.resource_group_name
-  location = var.resource_group_location
+  backend "azurerm" {
+    resource_group_name  = "BeStrong-resource-group"
+    storage_account_name = "tfstatebestrong324"
+    container_name       = "tfstate"
+    key                  = "terraform.tfstate"
+  }
 }
 
 resource "random_string" "random_suffix" {
@@ -55,6 +51,8 @@ resource "azurerm_subnet" "subnet_private" {
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnetwork.name
   address_prefixes     = [var.address_prefixes_subnet_private]
+
+  service_endpoints = ["Microsoft.KeyVault"]
 }
 
 # App Service Plan
@@ -80,6 +78,17 @@ resource "azurerm_linux_web_app" "app" {
   site_config {
     vnet_route_all_enabled = true
   }
+
+  app_settings = {
+    "APPINSIGHTS_INSTRUMENTATIONKEY"           = azurerm_application_insights.app_insights.instrumentation_key
+    "APPLICATIONINSIGHTS_CONNECTION_STRING"    = azurerm_application_insights.app_insights.connection_string
+    "WEBSITES_ENABLE_APP_SERVICE_STORAGE"      = "true"
+    "AZURE_STORAGE_ACCOUNT_NAME"               = azurerm_storage_account.storage.name
+    "AZURE_STORAGE_ACCOUNT_KEY"                = azurerm_storage_account.storage.primary_access_key
+    "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING" = "DefaultEndpointsProtocol=https;AccountName=${azurerm_storage_account.storage.name};AccountKey=${azurerm_storage_account.storage.primary_access_key}"
+    "WEBSITE_CONTENTSHARE"                     = azurerm_storage_share.fileshare.name
+  }
+
 }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "app_vnet_integration" {
@@ -118,6 +127,13 @@ resource "azurerm_key_vault" "kv" {
   resource_group_name = azurerm_resource_group.rg.name
   sku_name            = var.sku_name_kv
   tenant_id           = var.tenant_id
+
+  network_acls {
+    default_action             = "Deny"
+    bypass                     = "AzureServices"
+    virtual_network_subnet_ids = [azurerm_subnet.subnet_private.id]
+  }
+
 }
 
 resource "azurerm_key_vault_access_policy" "kv_policy" {
@@ -169,15 +185,6 @@ resource "azurerm_private_endpoint" "sql_private_endpoint" {
     subresource_names              = ["sqlServer"]
     is_manual_connection           = false
   }
-}
-
-# Storage Account for Terraform State
-resource "azurerm_storage_account" "terraform_state" {
-  name                     = "tfstate${random_string.random_suffix.result}"
-  resource_group_name      = azurerm_resource_group.rg.name
-  location                 = azurerm_resource_group.rg.location
-  account_tier             = var.account_tier_terraform_state
-  account_replication_type = var.account_replication_type_terraform_state
 }
 
 # Storage Account and Private Endpoint for File Share
