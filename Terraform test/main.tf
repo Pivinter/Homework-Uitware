@@ -13,16 +13,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
-  subscription_id = var.subscription_id
-}
-
-resource "azurerm_resource_group" "rg" {
-  name     = var.resource_group_name
-  location = var.resource_group_location
-}
-
 resource "random_string" "random_suffix" {
   length  = 6
   special = false
@@ -197,15 +187,6 @@ resource "azurerm_private_endpoint" "sql_private_endpoint" {
   }
 }
 
-# Storage Account for Terraform State
-resource "azurerm_storage_account" "terraform_state" {
-  name                     = "tfstatebestrong324"
-  resource_group_name      = azurerm_resource_group.rg.name
-  location                 = azurerm_resource_group.rg.location
-  account_tier             = var.account_tier_terraform_state
-  account_replication_type = var.account_replication_type_terraform_state
-}
-
 # Storage Account and Private Endpoint for File Share
 resource "azurerm_storage_account" "storage" {
   name                     = "storage${random_string.random_suffix.result}"
@@ -214,13 +195,6 @@ resource "azurerm_storage_account" "storage" {
   account_tier             = var.account_tier_storage
   account_replication_type = var.account_replication_type_terraform_state
 }
-
-resource "azurerm_storage_container" "tfstate" {
-  name                  = "tfstate"
-  storage_account_id  = azurerm_storage_account.terraform_state.id
-  container_access_type = "private"
-}
-
 
 resource "azurerm_storage_share" "fileshare" {
   name               = "myfileshare"
