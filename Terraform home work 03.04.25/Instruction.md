@@ -4,4 +4,4 @@ terraform apply -target=azurerm_resource_group.rg -target=azurerm_storage_accoun
 
 Run:
 terraform init #з бекендом
-terraform apply
+terraform apply -auto-approve
