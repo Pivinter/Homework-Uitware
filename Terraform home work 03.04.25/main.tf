@@ -5,12 +5,12 @@ terraform {
       version = "4.25.0"
     }
   }
-  # backend "azurerm" {
-  #   resource_group_name  = "BeStrong-resource-group"
-  #   storage_account_name = "tfstatebestrong324"
-  #   container_name       = "tfstate"
-  #   key                  = "terraform.tfstate"
-  # }
+  backend "azurerm" {
+    resource_group_name  = "BeStrong-resource-group"
+    storage_account_name = "tfstatebestrong324"
+    container_name       = "tfstate"
+    key                  = "terraform.tfstate"
+  }
 }
 
 provider "azurerm" {
