@@ -1,11 +1,6 @@
-resource "random_string" "random_suffix" {
-  length  = 6
-  special = false
-  upper   = false
-}
 # Key Vault
 resource "azurerm_key_vault" "kv" {
-  name                = "kv-${random_string.random_suffix.result}"
+  name                = "kv-${var.random_string}"
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
   sku_name            = var.sku_name_kv

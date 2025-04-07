@@ -1,11 +1,6 @@
-resource "random_string" "random_suffix" {
-  length  = 6
-  special = false
-  upper   = false
-}
 # SQL Server with Private Endpoint
 resource "azurerm_mssql_server" "sql" {
-  name                         = "sql-${random_string.random_suffix.result}"
+  name                         = "sql-${var.random_string}"
   resource_group_name          = var.resource_group_name
   location                     = var.resource_group_location
   administrator_login          = var.sql_admin_user

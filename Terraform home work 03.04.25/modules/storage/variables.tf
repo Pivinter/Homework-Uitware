@@ -18,3 +18,4 @@ variable "resource_group_location" {
   type        = string
 }
 variable "subnet_id_private" {}
+variable "random_string" {}

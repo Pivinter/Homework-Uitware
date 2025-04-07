@@ -20,3 +20,4 @@ variable "resource_group_location" {
 }
 variable "subnet_id_private" {}
 variable "object_id" {}
+variable "random_string" {}

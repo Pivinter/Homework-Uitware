@@ -37,6 +37,12 @@ resource "azurerm_storage_container" "tfstate" {
   container_access_type = "private"
 }
 
+resource "random_string" "random_suffix" {
+  length  = 6
+  special = false
+  upper   = false
+}
+
 module "network" {
   source                             = "./modules/network"
   address_space_vnetwork             = var.address_space_vnetwork
@@ -44,6 +50,7 @@ module "network" {
   address_prefixes_subnet_private    = var.address_prefixes_subnet_private
   resource_group_name                = var.resource_group_name
   resource_group_location            = var.resource_group_location
+  random_string = random_string.random_suffix.result
 }
 
 module "app_service" {
@@ -57,6 +64,7 @@ module "app_service" {
   subnet_id                     = module.network.subnet_id
   storage_account_key           = module.Storage.storage_account_key
   storage_share_name            = module.Storage.storage_share_name
+  random_string = random_string.random_suffix.result
 }
 
 module "container_registry" {
@@ -65,6 +73,7 @@ module "container_registry" {
   principal_id            = module.app_service.principal_id
   resource_group_name     = var.resource_group_name
   resource_group_location = var.resource_group_location
+  random_string = random_string.random_suffix.result
 }
 
 module "database" {
@@ -75,6 +84,7 @@ module "database" {
   subnet_id_private       = module.network.subnet_id_private
   resource_group_name     = var.resource_group_name
   resource_group_location = var.resource_group_location
+  random_string = random_string.random_suffix.result
 }
 
 module "key_Vault" {
@@ -85,6 +95,7 @@ module "key_Vault" {
   resource_group_name     = var.resource_group_name
   resource_group_location = var.resource_group_location
   object_id               = module.app_service.principal_id
+  random_string = random_string.random_suffix.result
 }
 
 module "Storage" {
@@ -94,4 +105,5 @@ module "Storage" {
   subnet_id_private                        = module.network.subnet_id_private
   resource_group_name                      = var.resource_group_name
   resource_group_location                  = var.resource_group_location
+  random_string = random_string.random_suffix.result
 }

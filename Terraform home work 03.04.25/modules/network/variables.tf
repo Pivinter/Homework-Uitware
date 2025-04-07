@@ -22,3 +22,4 @@ variable "resource_group_location" {
   description = "Existing Resource Group Location"
   type        = string
 }
+variable "random_string" {}

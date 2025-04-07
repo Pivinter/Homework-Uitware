@@ -1,11 +1,6 @@
-resource "random_string" "random_suffix" {
-  length  = 6
-  special = false
-  upper   = false
-}
 # Azure Container Registry
 resource "azurerm_container_registry" "acr" {
-  name                = "acr${random_string.random_suffix.result}"
+  name                = "acr${var.random_string}"
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
   sku                 = var.sku_acr

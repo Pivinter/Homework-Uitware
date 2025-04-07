@@ -26,3 +26,4 @@ variable "storage_account_name" {}
 variable "storage_account_key" {}
 variable "storage_share_name" {}
 variable "subnet_id" {}
+variable "random_string" {}

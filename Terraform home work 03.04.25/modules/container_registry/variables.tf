@@ -14,3 +14,4 @@ variable "resource_group_location" {
 }
 
 variable "principal_id" {}
+variable "random_string" {}

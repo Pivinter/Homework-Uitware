@@ -1,11 +1,6 @@
-resource "random_string" "random_suffix" {
-  length  = 6
-  special = false
-  upper   = false
-}
 # Storage Account and Private Endpoint for File Share
 resource "azurerm_storage_account" "storage" {
-  name                     = "storage${random_string.random_suffix.result}"
+  name                     = "storage${var.random_string}"
   resource_group_name      = var.resource_group_name
   location                 = var.resource_group_location
   account_tier             = var.account_tier_storage

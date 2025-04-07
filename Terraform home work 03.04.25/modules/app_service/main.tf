@@ -6,15 +6,10 @@ resource "azurerm_service_plan" "asp" {
   os_type             = var.os_type
   sku_name            = var.sku_name_asp
 }
-resource "random_string" "random_suffix" {
-  length  = 6
-  special = false
-  upper   = false
-}
 
 # App Service
 resource "azurerm_linux_web_app" "app" {
-  name                = "my-app-service-${random_string.random_suffix.result}"
+  name                = "my-app-service-${var.random_string}"
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
   service_plan_id     = azurerm_service_plan.asp.id
@@ -46,7 +41,7 @@ resource "azurerm_app_service_virtual_network_swift_connection" "app_vnet_integr
 
 # Application Insights
 resource "azurerm_application_insights" "app_insights" {
-  name                = "my-app-insights-${random_string.random_suffix.result}"
+  name                = "my-app-insights-${var.random_string}"
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
   application_type    = var.application_type_app_insights
