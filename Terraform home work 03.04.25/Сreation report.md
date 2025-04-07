@@ -1,88 +1,179 @@
-Performing the task of creating the Terraform infrastructure:
-        1 App Service Plan
-        1 App Service - integrate with VNet, enable System Managed Identity
-        1 Application Insights - linked to App Service
-        1 ACR - Azure Container Registry, grant App Service Identity access to it
-        1 Key Vault - grant permissions to App Service Identity, integrate with VNet
-        1 VNet
-        1 MS SQL Server DB - Private Endpoint needs to be configured
-        1 Storage account - configure Private Endpoint with VNET and mount Fileshare to App Service
-        1 Storage account for Terraform state
+# Terraform Infrastructure Setup for Azure
 
-First, I created the main files main.tf, variables.tf, terraform.tfvars and .gitgnore
+## Overview
 
-Next, I created the basic resources
-1 Resource Group
-2 Virtual Network with subnets:
-    Public subnet
-    Subnet for private endpoints
+This project performs the task of creating a complete Terraform infrastructure on Azure, including:
 
-Next, I created the App Service infrastructure
-1 App Service Plan
-2 App Service with:
-    VNet Integration
-    System Assigned Managed Identity
-    Application Insights linked via instrumentation key
+- `1` App Service Plan  
+- `1` App Service with:
+  - VNet Integration  
+  - System Managed Identity  
+- `1` Application Insights (linked to App Service)  
+- `1` Azure Container Registry (ACR) with access granted to App Service Identity  
+- `1` Azure Key Vault with:
+  - Permissions for App Service Identity  
+  - Private Endpoint  
+- `1` Virtual Network (VNet)  
+- `1` Azure SQL Server Database with Private Endpoint  
+- `1` Storage Account with:
+  - Private Endpoint  
+  - File Share mounted to App Service  
+- `1` Separate Storage Account for Terraform State  
 
-I created Application Insights
-    Create azurerm_application_insights resource
-    Passing instrumentation_key to App Service
+---
 
-Next, I created the Azure Container Registry (ACR)
-    Created the ACR
-    Assigned the AcrPull role to the Managed Identity App Service
+## Step-by-Step Process
 
-Next, I created an Azure Key Vault
-    Created a Key Vault
-    Provided access via azurerm_key_vault_access_policy for Managed Identity
-    Set up a Private Endpoint
+### 🔹 Initial Setup
 
-Next, I created Azure SQL Server + Private Endpoint
-    Created SQL Server and SQL DB
+Created the following Terraform files:
 
-Next, I created Storage Account (for App Service File Share)
-    Stvoriv Storage Account
-    Create File Share
-    Set up Private Endpoint
+- `main.tf`
+- `variables.tf`
+- `terraform.tfvars`
+- `.gitignore`
 
-Next, I created a Storage Account for Terraform state
-    One Storage Account separately for state files
-    Used as a backend
+---
 
-Next, I created RBAC and access
-    Wikorista azurerm_role_assignment for role assignment:
-        App Service → ACR (AcrPull)
+### 🔹 Base Resources
 
-I created all this in main.tf. Then, for better navigation, I divided this file into modules:
-modules
-    app_service
-    container_registry
-    database
-    key_vault
-    network
-    storage
+- **Resource Group**
+- **Virtual Network** with two subnets:
+  - Public Subnet  
+  - Subnet for Private Endpoints  
 
-And updated the main.tf to use the modules.
+---
 
-The infrastructure is launched in two stages, the first without a backend:
-Run:
+### 🔹 App Service Infrastructure
+
+- **App Service Plan**
+- **App Service** with:
+  - VNet Integration  
+  - System Assigned Managed Identity  
+  - Application Insights (via instrumentation key)
+
+---
+
+### 🔹 Application Insights
+
+- Created with `azurerm_application_insights`  
+- Instrumentation key passed to App Service  
+
+---
+
+### 🔹 Azure Container Registry (ACR)
+
+- ACR created  
+- Assigned `AcrPull` role to the App Service Managed Identity  
+
+---
+
+### 🔹 Azure Key Vault
+
+- Key Vault created  
+- Access granted to App Service Identity via `azurerm_key_vault_access_policy`  
+- Private Endpoint configured  
+
+---
+
+### 🔹 Azure SQL Server + Private Endpoint
+
+- SQL Server and SQL Database created  
+- Private Endpoint setup  
+
+---
+
+### 🔹 Storage Account for App Service File Share
+
+- Storage Account created  
+- File Share created  
+- Private Endpoint configured  
+
+---
+
+### 🔹 Storage Account for Terraform State
+
+- Separate Storage Account created  
+- Used as backend for storing Terraform state  
+
+---
+
+### 🔹 RBAC & Access Control
+
+- Used `azurerm_role_assignment` for assigning roles:
+  - App Service → ACR (`AcrPull`)  
+
+---
+
+### 🔹 Modularity
+
+After setting up everything in `main.tf`, the file was split into the following modules for better structure:
+
+```
+modules/
+├── app_service
+├── container_registry
+├── database
+├── key_vault
+├── network
+└── storage
+```
+
+Then, `main.tf` was updated to use these modules.
+
+---
+
+## ⛏ Infrastructure Deployment Process
+
+### Step 1: Initial Run (without backend)
+
+```bash
 terraform init
-terraform apply -target=azurerm_resource_group.rg -target=azurerm_storage_account.tfstate -target=azurerm_storage_container.tfstate
+terraform apply \
+  -target=azurerm_resource_group.rg \
+  -target=azurerm_storage_account.tfstate \
+  -target=azurerm_storage_container.tfstate
+```
 
-Second step, use the backend to move terraform.tfstate to a container in Azure:
-Run:
-terraform init #з бекендом
+### Step 2: Backend Configuration
+
+```bash
+terraform init   # with backend
 terraform apply
+```
 
-Files after the first step:
-![Resource group](Images for report/Resource group.png)
-![Conteiner](Images for report/Conteiner.png)
-![Conteiner ftstate](Images for report/Conteiner-ftstate.png)
-![terraform.ftstate before it is sent to the container](Images for report/terraform-ftstate.png)
+---
 
-Files after the Second step:
-![terraform.ftstate after it is sent to the container](Images for report/terraform-ftstateafter.png)
-![Conteiner ftstate with terraform.ftstate](Images for report/Cloud-terraform.ftstate.png)
-![terraform.ftstate settings](Images for report/terraform.ftstate-settings.png)
-![All resources](Images for report/All-resources.png)
-![All resources](Images for report/All-resources2.png)
+## 📷 Screenshots
+
+### After Step 1:
+ ![Resource group](Images%20for%20report/Resource-group.png)
+  <p align="center">Resource group</p>
+  
+![Container](Images%20for%20report/Conteiner.png)
+  <p align="center">Container</p>
+  
+![Container ftstate](Images%20for%20report/Conteiner-ftstate.png)
+  <p align="center">Container ftstate</p>
+  
+![terraform.tfstate before backend](Images%20for%20report/terraform-ftstate.png)
+  <p align="center">terraform.tfstate before backend</p>
+
+### After Step 2:
+
+![terraform.tfstate after backend](Images%20for%20report/terraform-ftstateafter.png)
+<p align="center">terraform.tfstate after backend</p>
+
+![Container ftstate with terraform.tfstate](Images%20for%20report/Cloud-terraform.ftstate.png)
+<p align="center">Container ftstate with terraform.tfstate</p>
+
+![terraform.tfstate settings](Images%20for%20report/terraform.ftstate-settings.png)
+<p align="center">terraform.tfstate settings</p>
+
+![All resources](Images%20for%20report/Аll-resources.png)
+<p align="center">All resources</p>
+
+![All resources (continued)](Images%20for%20report/All-resources2.png)
+<p align="center">All resources (continued)</p>
+
+---
