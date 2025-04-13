@@ -10,10 +10,13 @@ pool:
   vmImage: 'ubuntu-22.04'
 
 variables:
+- name: terraformVersion
+  value: '1.11.2'
+
+- name: workingDirectory
+  value: 'Terraform home work 03.04.25'
+
 - group: terraform-vars
-  terraformVersion: '1.11.2'
-  workingDirectory: 'Terraform home work 03.04.25'
-  
 
 steps:
   - checkout: self
