@@ -10,8 +10,10 @@ pool:
   vmImage: 'ubuntu-22.04'
 
 variables:
+- group: terraform-vars
   terraformVersion: '1.11.2'
   workingDirectory: 'Terraform home work 03.04.25'
+  
 
 steps:
   - checkout: self
@@ -42,6 +44,32 @@ steps:
           terraform plan -out=tfplan
         elif [ "$(Build.SourceBranch)" == "refs/heads/master" ]; then
           echo "Running Terraform apply on master branch..."
-          terraform apply -auto-approve
+          terraform apply -auto-approve \
+            -var="resource_group_name=$(resource_group_name)" \
+            -var="resource_group_location=$(resource_group_location)" \
+            -var="terraform_state_storage_account=$(terraform_state_storage_account)" \
+            -var="app_service_name=$(app_service_name)" \
+            -var="app_service_plan_name=$(app_service_plan_name)" \
+            -var="acr_name=$(acr_name)" \
+            -var="key_vault_name=$(key_vault_name)" \
+            -var="sql_server_name=$(sql_server_name)" \
+            -var="storage_account_name=$(storage_account_name)" \
+            -var="sql_admin_user=$(sql_admin_user)" \
+            -var="sql_admin_password=$(sql_admin_password)" \
+            -var="subscription_id=$(subscription_id)" \
+            -var="tenant_id=$(tenant_id)" \
+            -var="os_type=$(os_type)" \
+            -var="sku_name_asp=$(sku_name_asp)" \
+            -var="sku_name_kv=$(sku_name_kv)" \
+            -var="sku_name_sqldb=$(sku_name_sqldb)" \
+            -var="address_space_vnetwork=$(address_space_vnetwork)" \
+            -var="address_prefixes_subnet_appservice=$(address_prefixes_subnet_appservice)" \
+            -var="address_prefixes_subnet_private=$(address_prefixes_subnet_private)" \
+            -var="application_type_app_insights=$(application_type_app_insights)" \
+            -var="sku_acr=$(sku_acr)" \
+            -var="account_tier_terraform_state=$(account_tier_terraform_state)" \
+            -var="account_replication_type_terraform_state=$(account_replication_type_terraform_state)" \
+            -var="account_replication_type_storage=$(account_replication_type_storage)" \
+            -var="account_tier_storage=$(account_tier_storage)"
         fi
     displayName: 'Terraform Init, Validate, Plan/Apply'
