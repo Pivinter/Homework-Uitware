@@ -40,8 +40,8 @@ steps:
         if [ "$(Build.Reason)" == "PullRequest" ]; then
           echo "Running Terraform plan on PR..."
           terraform plan -out=tfplan
-        elif [ "$(Build.SourceBranch)" == "refs/heads/main" ]; then
-          echo "Running Terraform apply on main branch..."
+        elif [ "$(Build.SourceBranch)" == "refs/heads/master" ]; then
+          echo "Running Terraform apply on master branch..."
           terraform apply -auto-approve
         fi
     displayName: 'Terraform Init, Validate, Plan/Apply'
