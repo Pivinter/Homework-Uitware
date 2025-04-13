@@ -153,3 +153,5 @@ terraform apply
 ---
 
 # Write terraform pipline
+
+# Write terraform pipline in Azure
