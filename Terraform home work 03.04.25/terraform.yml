@@ -10,7 +10,7 @@ pool:
   vmImage: 'ubuntu-22.04'
 
 variables:
-  terraformVersion: '4.25.0'
+  terraformVersion: '1.5.7'
 
 steps:
   - script: |
@@ -25,22 +25,26 @@ steps:
 
   - script: |
       echo "Initializing Terraform..."
-      terraform init
+      terraform init  
     displayName: 'Terraform Init'
+    workingDirectory: 'Terraform home work 03.04.25'
 
   - script: |
       echo "Validating Terraform configuration..."
       terraform validate
     displayName: 'Terraform Validate'
+    workingDirectory: 'Terraform home work 03.04.25'
 
   - script: |
       echo "Creating Terraform plan..."
       terraform plan -out=tfplan
     displayName: 'Terraform Plan'
+    workingDirectory: 'Terraform home work 03.04.25'
     condition: eq(variables['Build.Reason'], 'PullRequest')
 
   - script: |
       echo "Applying Terraform configuration..."
       terraform apply -auto-approve
     displayName: 'Terraform Apply'
+    workingDirectory: 'Terraform home work 03.04.25'
     condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), ne(variables['Build.Reason'], 'PullRequest'))
