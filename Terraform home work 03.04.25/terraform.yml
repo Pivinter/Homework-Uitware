@@ -6,7 +6,7 @@ trigger:
 pr:
   branches:
     include:
-      - master
+      - '*'
 
 pool:
   vmImage: 'ubuntu-22.04'
@@ -31,24 +31,41 @@ steps:
       terraform --version
     displayName: 'Install Terraform'
 
-  - task: AzureCLI@2
+    - task: AzureCLI@2
     inputs:
       azureSubscription: 'azure-sp-terraform'
       scriptType: bash
       scriptLocation: inlineScript
       workingDirectory: $(workingDirectory)
       inlineScript: |
-        echo "Initializing Terraform..."
+        echo "Running Terraform Init..."
         terraform init
 
-        echo "Validating Terraform..."
+        echo "Running Terraform Validate..."
         terraform validate
+    displayName: 'Terraform Init & Validate'
 
-        if [ ! -z "$SYSTEM_PULLREQUEST_PULLREQUESTID" ]; then
-          echo "Running Terraform plan on PR..."
+  - ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'azure-sp-terraform'
+        scriptType: bash
+        scriptLocation: inlineScript
+        workingDirectory: $(workingDirectory)
+        inlineScript: |
+          echo "Running Terraform Plan (PR)..."
           terraform plan -out=tfplan
-        elif [ "$(Build.SourceBranch)" == "refs/heads/master" ]; then
-          echo "Running Terraform apply on master branch..."
+      displayName: 'Terraform Plan (PR)'
+
+  - ${{ if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['Build.SourceBranch'], 'refs/heads/master')) }}:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'azure-sp-terraform'
+        scriptType: bash
+        scriptLocation: inlineScript
+        workingDirectory: $(workingDirectory)
+        inlineScript: |
+          echo "Running Terraform Apply (master)..."
           terraform apply -auto-approve \
             -var="resource_group_name=$(resource_group_name)" \
             -var="resource_group_location=$(resource_group_location)" \
@@ -76,5 +93,4 @@ steps:
             -var="account_replication_type_terraform_state=$(account_replication_type_terraform_state)" \
             -var="account_replication_type_storage=$(account_replication_type_storage)" \
             -var="account_tier_storage=$(account_tier_storage)"
-        fi
-    displayName: 'Terraform Init, Validate, Plan/Apply'
+      displayName: 'Terraform Apply (master)'
