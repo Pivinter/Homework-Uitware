@@ -6,7 +6,7 @@ trigger:
 pr:
   branches:
     include:
-      - master
+      - '*'
 
 pool:
   vmImage: 'ubuntu-22.04'
@@ -31,7 +31,7 @@ steps:
       terraform --version
     displayName: 'Install Terraform'
 
-    - task: AzureCLI@2
+  - task: AzureCLI@2
     inputs:
       azureSubscription: 'azure-sp-terraform'
       scriptType: bash
