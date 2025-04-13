@@ -13,6 +13,8 @@ variables:
   terraformVersion: '1.5.7'
 
 steps:
+  - checkout: self
+
   - script: |
       echo "Installing Terraform..."
       wget https://releases.hashicorp.com/terraform/${terraformVersion}/terraform_${terraformVersion}_linux_amd64.zip
@@ -21,7 +23,15 @@ steps:
       terraform --version
     displayName: 'Install Terraform'
 
-  - checkout: self
+  - task: AzureCLI@2
+    name: AzureLogin
+    inputs:
+      azureSubscription: 'azure-sp-terraform'
+      scriptType: bash
+      scriptLocation: inlineScript
+      inlineScript: |
+        echo "Logged into Azure"
+    displayName: 'Azure Login'
 
   - script: |
       echo "Initializing Terraform..."
