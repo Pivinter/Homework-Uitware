@@ -44,7 +44,7 @@ steps:
         echo "Validating Terraform..."
         terraform validate
 
-        if [ -n "$SYSTEM_PULLREQUEST_SOURCEBRANCH" ]; then
+        if [ ! -z "$SYSTEM_PULLREQUEST_PULLREQUESTID" ]; then
           echo "Running Terraform plan on PR..."
           terraform plan -out=tfplan
         elif [ "$(Build.SourceBranch)" == "refs/heads/master" ]; then
