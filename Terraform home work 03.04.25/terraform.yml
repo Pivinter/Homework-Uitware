@@ -6,7 +6,7 @@ trigger:
 pr:
   branches:
     include:
-      - '*'
+      - master
 
 pool:
   vmImage: 'ubuntu-22.04'
@@ -38,34 +38,17 @@ steps:
       scriptLocation: inlineScript
       workingDirectory: $(workingDirectory)
       inlineScript: |
-        echo "Running Terraform Init..."
+        echo "Initializing Terraform..."
         terraform init
 
-        echo "Running Terraform Validate..."
+        echo "Validating Terraform..."
         terraform validate
-    displayName: 'Terraform Init & Validate'
 
-  - ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: 'azure-sp-terraform'
-        scriptType: bash
-        scriptLocation: inlineScript
-        workingDirectory: $(workingDirectory)
-        inlineScript: |
-          echo "Running Terraform Plan (PR)..."
+        if [ "$BUILD_REASON" == "PullRequest" ]; then
+          echo "Running Terraform plan (PR)..."
           terraform plan -out=tfplan
-      displayName: 'Terraform Plan (PR)'
-
-  - ${{ if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['Build.SourceBranch'], 'refs/heads/master')) }}:
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: 'azure-sp-terraform'
-        scriptType: bash
-        scriptLocation: inlineScript
-        workingDirectory: $(workingDirectory)
-        inlineScript: |
-          echo "Running Terraform Apply (master)..."
+        elif [ "$BUILD_SOURCEBRANCHNAME" == "master" ]; then
+          echo "Running Terraform apply (master)..."
           terraform apply -auto-approve \
             -var="resource_group_name=$(resource_group_name)" \
             -var="resource_group_location=$(resource_group_location)" \
@@ -93,4 +76,5 @@ steps:
             -var="account_replication_type_terraform_state=$(account_replication_type_terraform_state)" \
             -var="account_replication_type_storage=$(account_replication_type_storage)" \
             -var="account_tier_storage=$(account_tier_storage)"
-      displayName: 'Terraform Apply (master)'
+        fi
+    displayName: 'Terraform Init, Validate, Plan/Apply'
