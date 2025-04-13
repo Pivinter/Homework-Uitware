@@ -158,3 +158,5 @@ terraform apply
 
 # Write Azure conection
 
+
+
