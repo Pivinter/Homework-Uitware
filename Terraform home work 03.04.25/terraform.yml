@@ -1,0 +1,46 @@
+trigger:
+  - master
+
+pr:
+  branches:
+    include:
+      - '*'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  terraformVersion: '4.25.0'
+
+steps:
+  - script: |
+      echo "Installing Terraform..."
+      wget https://releases.hashicorp.com/terraform/${terraformVersion}/terraform_${terraformVersion}_linux_amd64.zip
+      unzip terraform_${terraformVersion}_linux_amd64.zip
+      sudo mv terraform /usr/local/bin/
+      terraform --version
+    displayName: 'Install Terraform'
+
+  - checkout: self
+
+  - script: |
+      echo "Initializing Terraform..."
+      terraform init
+    displayName: 'Terraform Init'
+
+  - script: |
+      echo "Validating Terraform configuration..."
+      terraform validate
+    displayName: 'Terraform Validate'
+
+  - script: |
+      echo "Creating Terraform plan..."
+      terraform plan -out=tfplan
+    displayName: 'Terraform Plan'
+    condition: eq(variables['Build.Reason'], 'PullRequest')
+
+  - script: |
+      echo "Applying Terraform configuration..."
+      terraform apply -auto-approve
+    displayName: 'Terraform Apply'
+    condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))
