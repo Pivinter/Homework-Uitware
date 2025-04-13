@@ -7,7 +7,7 @@ pr:
       - '*'
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-22.04'
 
 variables:
   terraformVersion: '4.25.0'
