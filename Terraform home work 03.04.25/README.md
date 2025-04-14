@@ -4,6 +4,7 @@ Table of Contents
 =================
 
 * [Terraform Infrastructure Setup for Azure](#terraform-infrastructure-setup-for-azure)
+* [Table of Contents](#table-of-contents)
    * [Overview](#overview)
    * [Step-by-Step Process](#step-by-step-process)
       * [Initial Setup](#initial-setup)
@@ -24,14 +25,14 @@ Table of Contents
       * [After Step 1:](#after-step-1)
       * [After Step 2:](#after-step-2)
 * [Home work 11.04.25](#home-work-110425)
-   * [Adding CI/CD](#adding-cicd)
-   * [Write terraform pipline in Azure](#write-terraform-pipline-in-azure)
-   * [Write Azure connection](#write-azure-connection)
-* [Infrastructure Deployment Process](#infrastructure-deployment-process-1)
-   * [Step one, creating initial resources and rolling over terraform.state](#step-one-creating-initial-resources-and-rolling-over-terraformstate)
-   * [Step two, connect Azure Resource Manager to Azure DevOps.](#step-two-connect-azure-resource-manager-to-azure-devops)
-   * [Step three, utilization, we can do RP and deploy infrastructure through Azure DevOps.](#step-three-utilization-we-can-do-rp-and-deploy-infrastructure-through-azure-devops)
-* [Screenshots](#screenshots-1)
+      * [Adding CI/CD](#adding-cicd)
+      * [Write terraform pipline in Azure](#write-terraform-pipline-in-azure)
+      * [Write Azure connection](#write-azure-connection)
+   * [Infrastructure Deployment Process](#infrastructure-deployment-process-1)
+      * [Step one, creating initial resources and rolling over terraform.state](#step-one-creating-initial-resources-and-rolling-over-terraformstate)
+      * [Step two, connect Azure Resource Manager to Azure DevOps.](#step-two-connect-azure-resource-manager-to-azure-devops)
+      * [Step three, utilization, we can do RP and deploy infrastructure through Azure DevOps.](#step-three-utilization-we-can-do-rp-and-deploy-infrastructure-through-azure-devops)
+   * [Screenshots](#screenshots-1)
       * [After Step 1:](#after-step-1-1)
       * [After Step 2:](#after-step-2-1)
       * [After Step 3:](#after-step-3)
@@ -188,18 +189,18 @@ terraform apply
 
 ---
 # Home work 11.04.25
-## Adding CI/CD 
+### Adding CI/CD 
 Before I started working, I took a course on the Azure DevOps pipeline and started using Trunk-Based Development.
 
-## Write terraform pipline in Azure
+### Write terraform pipline in Azure
 Next, I created a terraform.yml to use in Azure DevOps. For the commit in the master, I used the 'terraform init', 'terraform validate', and 'terraform apply' steps. For RP, the 'terraform init', 'terraform validate', and 'terraform plan' steps are used.
 
-## Write Azure connection
+### Write Azure connection
 Next, I connected GitHub and Azure Resource Manager to the project in Azure DevOps, then I created a Variable group for variables that are not required for the deployment, and in Azure, I gave the Service principal User Access Administrator rights so that the pipeline could create all the necessary resources.
 
-# Infrastructure Deployment Process
+## Infrastructure Deployment Process
 
-## Step one, creating initial resources and rolling over terraform.state
+### Step one, creating initial resources and rolling over terraform.state
 ```bash
 terraform init
 terraform apply \
@@ -208,11 +209,11 @@ terraform apply \
   -target=azurerm_storage_container.tfstate
 terraform init   # with backend
 ```
-## Step two, connect Azure Resource Manager to Azure DevOps.
+### Step two, connect Azure Resource Manager to Azure DevOps.
 
-## Step three, utilization, we can do RP and deploy infrastructure through Azure DevOps.
+### Step three, utilization, we can do RP and deploy infrastructure through Azure DevOps.
 
-# Screenshots
+## Screenshots
 ### After Step 1:
 
  ![Terraform-init](Photo_for_the_report_11.04.25/Terraform-init.png)
