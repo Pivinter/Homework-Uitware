@@ -214,7 +214,7 @@ terraform init   # with backend
   <p align="center">Done pipeline in GitHub</p>
 
  ![Terraform-init](Photo_for_the_report_11.04.25/Marge.png)
-  <p align="center">Marge</p>
+  <p align="center">Merge</p>
 
  ![Terraform-init](Photo_for_the_report_11.04.25/Done-pipeline-tf-apply.png)
   <p align="center">Done pipeline tf apply</p>
