@@ -24,6 +24,7 @@ Table of Contents
       * [After Step 1:](#after-step-1)
       * [After Step 2:](#after-step-2)
 * [Home work 11.04.25](#home-work-110425)
+   * [Setting Up CI/CD with Trunk-Based Development and Azure Pipelines](#setting-up-cicd-with-trunk-based-development-and-azure-pipelines)
       * [Adding CI/CD](#adding-cicd)
       * [Write terraform pipline in Azure](#write-terraform-pipline-in-azure)
       * [Write Azure connection](#write-azure-connection)
