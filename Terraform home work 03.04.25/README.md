@@ -21,8 +21,8 @@ Table of Contents
       * [Step 1: Initial Run (without backend)](#step-1-initial-run-without-backend)
       * [Step 2: Backend Configuration](#step-2-backend-configuration)
    * [Screenshots](#screenshots)
-      * [After Step 1:](#after-step-1)
-      * [After Step 2:](#after-step-2)
+      * [After Step 1](#after-step-1)
+      * [After Step 2](#after-step-2)
 * [Home work 11.04.25](#home-work-110425)
    * [Setting Up CI/CD with Trunk-Based Development and Azure Pipelines](#setting-up-cicd-with-trunk-based-development-and-azure-pipelines)
       * [Adding CI/CD](#adding-cicd)
@@ -33,9 +33,9 @@ Table of Contents
       * [Step two, connect Azure Resource Manager to Azure DevOps.](#step-two-connect-azure-resource-manager-to-azure-devops)
       * [Step three, utilization, we can do RP and deploy infrastructure through Azure DevOps.](#step-three-utilization-we-can-do-rp-and-deploy-infrastructure-through-azure-devops)
    * [Screenshots](#screenshots-1)
-      * [After Step 1:](#after-step-1-1)
-      * [After Step 2:](#after-step-2-1)
-      * [After Step 3:](#after-step-3)
+      * [After Step 1](#after-step-1-1)
+      * [After Step 2](#after-step-2-1)
+      * [After Step 3](#after-step-3)
 
 ## Overview
 
@@ -157,7 +157,7 @@ terraform apply
 
 ## Screenshots
 
-### After Step 1:
+### After Step 1
  ![Resource group](Images%20for%20report/Resource-group.png)
   <p align="center">Resource group</p>
   
@@ -170,7 +170,7 @@ terraform apply
 ![terraform.tfstate before backend](Images%20for%20report/terraform-ftstate.png)
   <p align="center">terraform.tfstate before backend</p>
 
-### After Step 2:
+### After Step 2
 
 ![terraform.tfstate after backend](Images%20for%20report/terraform-ftstateafter.png)
 <p align="center">terraform.tfstate after backend</p>
@@ -217,7 +217,7 @@ terraform init   # with backend
 ### Step three, utilization, we can do RP and deploy infrastructure through Azure DevOps.
 
 ## Screenshots
-### After Step 1:
+### After Step 1
 
  ![Terraform-init](Photo_for_the_report_11.04.25/Terraform-init.png)
   <p align="center">Terraform init</p>
@@ -234,7 +234,7 @@ terraform init   # with backend
  ![Terraform-init](Photo_for_the_report_11.04.25/Conteiner-with-terraform-state.png)
   <p align="center">Conteiner with terraform state</p>
 
-### After Step 2:
+### After Step 2
 
  ![Terraform-init](Photo_for_the_report_11.04.25/Added-conection-in-Azure-DevOps.png)
   <p align="center">Added connection in Azure DevOps</p>
@@ -242,7 +242,7 @@ terraform init   # with backend
  ![Terraform-init](Photo_for_the_report_11.04.25/Terraform-var-in-Azure-DevOps.png)
   <p align="center">Terraform var in Azure DevOps</p>
 
-### After Step 3:
+### After Step 3
 
  ![Terraform-init](Photo_for_the_report_11.04.25/Create-PR.png)
   <p align="center">Create PR</p>
