@@ -151,19 +151,19 @@ terraform apply
 <p align="center">All resources (continued)</p>
 
 ---
-
+# Home work 11.04.25
 # Adding CI/CD 
 Before I started working, I took a course about Azure DevOps pipeline and started using Trunk Based Development.
 
 # Write terraform pipline in Azure
-Next, I created a terraform.yml to use in Azure DevOps, and for the commit in the master, I used the terraform init, terraform validate, and terraform apply steps. For RP, the terraform init, terraform validate, and terraform plan steps are used.
+Next, I created a terraform.yml to use in Azure DevOps, and for the commit in the master, I used the 'terraform init', 'terraform validate', and 'terraform apply' steps. For RP, the 'terraform init', 'terraform validate', and 'terraform plan' steps are used.
 
 # Write Azure conection
 Next, I connected GitHub and Azure Resource Manager to the project in Azure DevOps, then I created a Variable group for variables that are not required for the deployment, and in Azure I gave the Service principal User Access Administrator rights so that the pipeline could create all the necessary resources.
 
 ## Infrastructure Deployment Process
 
-Step one, creating initial resources and rolling over terraform.state
+### Step one, creating initial resources and rolling over terraform.state
 ```bash
 terraform init
 terraform apply \
@@ -172,9 +172,9 @@ terraform apply \
   -target=azurerm_storage_container.tfstate
 terraform init   # with backend
 ```
-Step two, connect Azure Resource Manager to Azure DevOps.
+### Step two, connect Azure Resource Manager to Azure DevOps.
 
-Step three, utilization, we can do RP and deploy infrastructure through Azure DevOps.
+### Step three, utilization, we can do RP and deploy infrastructure through Azure DevOps.
 
 ## Screenshots
 
