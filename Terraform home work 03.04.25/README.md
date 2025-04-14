@@ -1,5 +1,41 @@
 # Terraform Infrastructure Setup for Azure
 
+Table of Contents
+=================
+
+* [Terraform Infrastructure Setup for Azure](#terraform-infrastructure-setup-for-azure)
+   * [Overview](#overview)
+   * [Step-by-Step Process](#step-by-step-process)
+      * [Initial Setup](#initial-setup)
+      * [Base Resources](#base-resources)
+      * [App Service Infrastructure](#app-service-infrastructure)
+      * [Application Insights](#application-insights)
+      * [Azure Container Registry (ACR)](#azure-container-registry-acr)
+      * [Azure Key Vault](#azure-key-vault)
+      * [Azure SQL Server + Private Endpoint](#azure-sql-server--private-endpoint)
+      * [Storage Account for App Service File Share](#storage-account-for-app-service-file-share)
+      * [Storage Account for Terraform State](#storage-account-for-terraform-state)
+      * [Access Control](#access-control)
+      * [Modularity](#modularity)
+   * [Infrastructure Deployment Process](#infrastructure-deployment-process)
+      * [Step 1: Initial Run (without backend)](#step-1-initial-run-without-backend)
+      * [Step 2: Backend Configuration](#step-2-backend-configuration)
+   * [Screenshots](#screenshots)
+      * [After Step 1:](#after-step-1)
+      * [After Step 2:](#after-step-2)
+* [Home work 11.04.25](#home-work-110425)
+   * [Adding CI/CD](#adding-cicd)
+   * [Write terraform pipline in Azure](#write-terraform-pipline-in-azure)
+   * [Write Azure connection](#write-azure-connection)
+* [Infrastructure Deployment Process](#infrastructure-deployment-process-1)
+   * [Step one, creating initial resources and rolling over terraform.state](#step-one-creating-initial-resources-and-rolling-over-terraformstate)
+   * [Step two, connect Azure Resource Manager to Azure DevOps.](#step-two-connect-azure-resource-manager-to-azure-devops)
+   * [Step three, utilization, we can do RP and deploy infrastructure through Azure DevOps.](#step-three-utilization-we-can-do-rp-and-deploy-infrastructure-through-azure-devops)
+* [Screenshots](#screenshots-1)
+      * [After Step 1:](#after-step-1-1)
+      * [After Step 2:](#after-step-2-1)
+      * [After Step 3:](#after-step-3)
+
 ## Overview
 
 This project performs the task of creating a complete Terraform infrastructure on Azure, including:
