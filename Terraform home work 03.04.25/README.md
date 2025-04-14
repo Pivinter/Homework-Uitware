@@ -152,18 +152,18 @@ terraform apply
 
 ---
 # Home work 11.04.25
-# Adding CI/CD 
-Before I started working, I took a course about Azure DevOps pipeline and started using Trunk Based Development.
+## Adding CI/CD 
+Before I started working, I took a course on the Azure DevOps pipeline and started using Trunk-Based Development.
 
-# Write terraform pipline in Azure
-Next, I created a terraform.yml to use in Azure DevOps, and for the commit in the master, I used the 'terraform init', 'terraform validate', and 'terraform apply' steps. For RP, the 'terraform init', 'terraform validate', and 'terraform plan' steps are used.
+## Write terraform pipline in Azure
+Next, I created a terraform.yml to use in Azure DevOps. For the commit in the master, I used the 'terraform init', 'terraform validate', and 'terraform apply' steps. For RP, the 'terraform init', 'terraform validate', and 'terraform plan' steps are used.
 
-# Write Azure conection
-Next, I connected GitHub and Azure Resource Manager to the project in Azure DevOps, then I created a Variable group for variables that are not required for the deployment, and in Azure I gave the Service principal User Access Administrator rights so that the pipeline could create all the necessary resources.
+## Write Azure connection
+Next, I connected GitHub and Azure Resource Manager to the project in Azure DevOps, then I created a Variable group for variables that are not required for the deployment, and in Azure, I gave the Service principal User Access Administrator rights so that the pipeline could create all the necessary resources.
 
-## Infrastructure Deployment Process
+# Infrastructure Deployment Process
 
-### Step one, creating initial resources and rolling over terraform.state
+## Step one, creating initial resources and rolling over terraform.state
 ```bash
 terraform init
 terraform apply \
@@ -172,9 +172,58 @@ terraform apply \
   -target=azurerm_storage_container.tfstate
 terraform init   # with backend
 ```
-### Step two, connect Azure Resource Manager to Azure DevOps.
+## Step two, connect Azure Resource Manager to Azure DevOps.
 
-### Step three, utilization, we can do RP and deploy infrastructure through Azure DevOps.
+## Step three, utilization, we can do RP and deploy infrastructure through Azure DevOps.
 
-## Screenshots
+# Screenshots
+### After Step 1:
 
+ ![Terraform-init](Photo_for_the_report_11.04.25/Terraform-init.png)
+  <p align="center">Terraform init</p>
+
+ ![Terraform-init](Photo_for_the_report_11.04.25/Terraform-apply.png)
+  <p align="center">Terraform apply</p>
+
+ ![Terraform-init](Photo_for_the_report_11.04.25/Terraform-init-beckend.png)
+  <p align="center">Terraform init beckend</p>
+
+ ![Terraform-init](Photo_for_the_report_11.04.25/Created-resourse-group.png)
+  <p align="center">Created resourse group</p>
+
+ ![Terraform-init](Photo_for_the_report_11.04.25/Conteiner-with-terraform-state.png)
+  <p align="center">Conteiner with terraform state</p>
+
+### After Step 2:
+
+ ![Terraform-init](Photo_for_the_report_11.04.25/Added-conection-in-Azure-DevOps.png)
+  <p align="center">Added connection in Azure DevOps</p>
+
+ ![Terraform-init](Photo_for_the_report_11.04.25/Terraform-var-in-Azure-DevOps.png)
+  <p align="center">Terraform var in Azure DevOps</p>
+
+### After Step 3:
+
+ ![Terraform-init](Photo_for_the_report_11.04.25/Create-PR.png)
+  <p align="center">Create PR</p>
+
+ ![Terraform-init](Photo_for_the_report_11.04.25/Done-pipeline.png)
+  <p align="center">Done pipeline with terraform plan</p>
+
+ ![Terraform-init](Photo_for_the_report_11.04.25/Done-pipeline-GitHub.png)
+  <p align="center">Done pipeline in GitHub</p>
+
+ ![Terraform-init](Photo_for_the_report_11.04.25/Marge.png)
+  <p align="center">Marge</p>
+
+ ![Terraform-init](Photo_for_the_report_11.04.25/Done-pipeline-tf-apply.png)
+  <p align="center">Done pipeline tf apply</p>
+
+ ![Terraform-init](Photo_for_the_report_11.04.25/Done-pipeline-GitHub-tf-apply.png)
+  <p align="center">Done pipeline GitHub tf apply</p>
+
+ ![Terraform-init](Photo_for_the_report_11.04.25/Azure.png)
+  <p align="center">Done work in Azure</p>
+
+ ![Terraform-init](Photo_for_the_report_11.04.25/Azure-p2.png)
+  <p align="center">Done work in Azure part 2</p>
