@@ -4,7 +4,6 @@ Table of Contents
 =================
 
 * [Terraform Infrastructure Setup for Azure](#terraform-infrastructure-setup-for-azure)
-* [Table of Contents](#table-of-contents)
    * [Overview](#overview)
    * [Step-by-Step Process](#step-by-step-process)
       * [Initial Setup](#initial-setup)
@@ -189,6 +188,9 @@ terraform apply
 
 ---
 # Home work 11.04.25
+
+## Setting Up CI/CD with Trunk-Based Development and Azure Pipelines
+
 ### Adding CI/CD 
 Before I started working, I took a course on the Azure DevOps pipeline and started using Trunk-Based Development.
 
