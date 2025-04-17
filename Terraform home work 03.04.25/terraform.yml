@@ -55,5 +55,4 @@ steps:
       workingDirectory: '$(workingDirectory)'
       environmentServiceName: 'azure-sp-terraform'
       varsFile: '$(downloadTfvars.secureFilePath)'
-      allowTelemetryCollection: false
       autoApprove: true
