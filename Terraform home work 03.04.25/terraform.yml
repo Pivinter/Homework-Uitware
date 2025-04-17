@@ -12,8 +12,10 @@ pool:
   vmImage: 'ubuntu-22.04'
 
 variables:
-- name: workingDirectory
-  value: 'Terraform home work 03.04.25'
+  - name: workingDirectory
+    value: 'Terraform home work 03.04.25'
+
+  - group: terraform-vars
 
 steps:
   - checkout: self
@@ -21,7 +23,7 @@ steps:
   - task: DownloadSecureFile@1
     name: downloadTfvars
     inputs:
-      secureFile: 'terraform.tfvars' 
+      secureFile: 'terraform.tfvars'
 
   - task: TerraformCLI@0
     displayName: 'Terraform Init'
@@ -30,7 +32,7 @@ steps:
       workingDirectory: '$(workingDirectory)'
       backendType: 'azurerm'
       backendServiceArm: 'azure-sp-terraform'
-      ensureBackend: false
+      ensureBackend: true
 
   - task: TerraformCLI@0
     displayName: 'Terraform Validate'
@@ -45,14 +47,14 @@ steps:
       command: 'plan'
       workingDirectory: '$(workingDirectory)'
       environmentServiceName: 'azure-sp-terraform'
-      varsFile: '$(downloadTfvars.secureFilePath)'
+      varFile: '$(downloadTfvars.secureFilePath)'
 
   - task: TerraformCLI@0
     displayName: 'Terraform Apply'
-    condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
+    condition: eq(variables['Build.SourceBranchName'], 'master')
     inputs:
       command: 'apply'
       workingDirectory: '$(workingDirectory)'
       environmentServiceName: 'azure-sp-terraform'
-      varsFile: '$(downloadTfvars.secureFilePath)'
-      autoApprove: true
+      varFile: '$(downloadTfvars.secureFilePath)'
+      args: '-auto-approve'
