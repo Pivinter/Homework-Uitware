@@ -28,15 +28,18 @@ steps:
   - task: TerraformTaskV4@4
     displayName: 'Terraform Init'
     inputs:
+      provider: 'azurerm'
       command: 'init'
-      workingDirectory: '$(workingDirectory)'
-      backendType: 'azurerm'
       backendServiceArm: 'azure-sp-terraform'
-      ensureBackend: true
+      backendAzureRmResourceGroupName: 'BeStrong-resource-group'
+      backendAzureRmStorageAccountName: 'tfstatebestrong324'
+      backendAzureRmContainerName: 'tfstate'
+      backendAzureRmKey: 'terraform.tfstate'
 
   - task: TerraformTaskV4@4
     displayName: 'Terraform Validate'
     inputs:
+      provider: 'azurerm'
       command: 'validate'
       workingDirectory: '$(workingDirectory)'
 
@@ -44,17 +47,16 @@ steps:
     displayName: 'Terraform Plan'
     condition: eq(variables['Build.Reason'], 'PullRequest')
     inputs:
+      provider: 'azurerm'
       command: 'plan'
       workingDirectory: '$(workingDirectory)'
-      environmentServiceName: 'azure-sp-terraform'
-      varFile: '$(downloadTfvars.secureFilePath)'
+      environmentServiceNameAzureRM: 'azure-sp-terraform'
 
   - task: TerraformTaskV4@4
     displayName: 'Terraform Apply'
     condition: eq(variables['Build.SourceBranchName'], 'master')
     inputs:
+      provider: 'azurerm'
       command: 'apply'
       workingDirectory: '$(workingDirectory)'
-      environmentServiceName: 'azure-sp-terraform'
-      varFile: '$(downloadTfvars.secureFilePath)'
-      args: '-auto-approve'
+      environmentServiceNameAzureRM: 'azure-sp-terraform'
