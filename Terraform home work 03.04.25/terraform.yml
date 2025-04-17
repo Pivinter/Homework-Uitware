@@ -52,6 +52,7 @@ steps:
       command: 'plan'
       workingDirectory: '$(workingDirectory)'
       environmentServiceNameAzureRM: 'azure-sp-terraform'
+      commandOptions: '-var-file=$(downloadTfvars.secureFilePath)'
 
   - task: TerraformTaskV4@4
     displayName: 'Terraform Apply'
@@ -61,3 +62,4 @@ steps:
       command: 'apply'
       workingDirectory: '$(workingDirectory)'
       environmentServiceNameAzureRM: 'azure-sp-terraform'
+      commandOptions: '-var-file=$(downloadTfvars.secureFilePath) -auto-approve'
