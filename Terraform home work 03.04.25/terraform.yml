@@ -35,6 +35,7 @@ steps:
       backendAzureRmStorageAccountName: 'tfstatebestrong324'
       backendAzureRmContainerName: 'tfstate'
       backendAzureRmKey: 'terraform.tfstate'
+      workingDirectory: '$(workingDirectory)'
 
   - task: TerraformTaskV4@4
     displayName: 'Terraform Validate'
